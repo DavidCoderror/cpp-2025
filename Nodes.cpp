@@ -28,16 +28,17 @@ class SimpleList {
 
 	// How to add at the start of a  list
 	void AjouterDebut(int valeur) {
-		 Node* newBox = new Node(); //We create a new Node
-		 newBox -> data = valeur; //Add Values
-		 newBox->next = head; //Indicate Next to HEAD
+		Node* newBox = new Node(); // Create a new Node
+		newBox->data = valeur; // Assign Value
+		newBox->next = head; // Link to the previous head
+		head = newBox; // Update head to point to the new node
 	}
 
 	// How to add at the end of a  list
 	void AjouterFin(int valeur) {
 		Node* newBox = new Node(); //We create a new Node
 		newBox->data = valeur; //Add Values
-		newBox->next = head; //Indicate Next to HEAD	
+		newBox->next = NULL; //Indicate Next to HEAD	
 
 		//Check if list is empty or null
 		if (!head) {
@@ -99,7 +100,7 @@ class SimpleList {
 	void Afficher() {
 
 		//Verifier que le list est pas vide
-		if (!head) {cout << "Liste est vide";return;}
+		if (!head) { cout << "Liste est vide" << endl; return; }
 
 		Node* boxInitiale = head;
 
