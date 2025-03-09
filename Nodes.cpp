@@ -3,8 +3,6 @@
 using namespace std;
 
 
-
-
 //--------------------------------------------////--------------------------------------------//
 //--------------------------------------------////--------------------------------------------//
 //--------------------------------------------////--------------------------------------------//
@@ -26,89 +24,78 @@ class SimpleList {
 	//Constructor : Makes the List Empty for Now
 	public : SimpleList() :head(NULL){}
 
-	// How to add at the start of a  list
+	// How to add at the start of a  list (We just
 	void AjouterDebut(int valeur) {
-		Node* newBox = new Node(); // Create a new Node
-		newBox->data = valeur; // Assign Value
-		newBox->next = head; // Link to the previous head
-		head = newBox; // Update head to point to the new node
+		Node* A = new Node();
+		A->data = valeur;
+		A->next = head;
+		head = A;
 	}
 
-	// How to add at the end of a  list
+	//How to add at the end of a list
 	void AjouterFin(int valeur) {
-		Node* newBox = new Node(); //We create a new Node
-		newBox->data = valeur; //Add Values
-		newBox->next = NULL; //Indicate Next to HEAD	
+		Node* A = new Node();
+		A->data = valeur;
+		A->next = NULL;
 
-		//Check if list is empty or null
-		if (!head) {
-			head = newBox;
+		if (head == NULL) {
+			head = A;
+		}
+		else {
+			Node* current = head;
+				while (current->next != NULL) {
+					current = current->next;
+				}
+			current->next = A;
+		}
+	}
+
+
+	//How to add at a specific postion
+	void SpecificPostion(int valeur, int pos) {
+		Node* A = new Node;  
+		A->data = valeur;
+		A->next = NULL;
+
+		// If position is 0, insert at the beginning
+		if (pos == 0) {
+			A->next = head;
+			head = A;
 			return;
 		}
 
-		// Traverse tthe List untill last Node
-		Node* temp = head;
-		while (temp->next) {
-			temp = temp->next;
+		// Traverse to the position just before where we want to insert
+		Node* current = head;
+		for (int i = 0; i < pos - 1 && current != NULL; i++) {
+			current = current->next;
 		}
-		temp->next = newBox; //Make our created Node be at the end
+
+		// Insert if position is valid
+		if (current != NULL) {
+			A->next = current->next;  // Link new node to the next node
+			current->next = A;        // Link previous node to new node
+		}
 	}
 
-	//Pour ajouter a un postiiton specifique
-	void AjouterPosition(int valeur, int position) {
-		if (position < 1) {
-			cout << "position doit etre >= 1 " << endl;
-			return;
-		}
-
-		if (position == 1) {
-			AjouterDebut(valeur);
-		}
-
-		Node* newBox = new Node();
-		newBox->data = valeur;
-
-		Node* temp = head;
-
-		//Going thru the list till we hit specifified position
-		for (int i = 1; i < position - 1 && temp; i++) {
-			temp = temp->next;
-		}
-
-		//If position specified is just beyond the list
-		if (!temp) {
-			cout << "La Position est hors limite" << endl; delete newBox; return;
-		}
-
-		newBox->next = temp->next;
-		temp->next = newBox;
-	}
-	
-	//Cherchez taill du Chaine
 	int Taille() {
-		int taille = 0;
-		Node* boxInitiale = head;
-
-		while (boxInitiale) {
+		int taille =0;
+		Node* A = head;
+		while (A != NULL) {
 			taille++;
-			boxInitiale = boxInitiale->next;
+			A = A->next;
 		}
 		return taille;
 	}
 
-	//Afficher le list chainer
 	void Afficher() {
+		Node* A = head;
 
-		//Verifier que le list est pas vide
-		if (!head) { cout << "Liste est vide" << endl; return; }
-
-		Node* boxInitiale = head;
-
-		while (boxInitiale) {
-			cout << boxInitiale->data << "->";
-			boxInitiale = boxInitiale->next;
+		while (A != NULL) {
+			cout << A->data << " - ";
+			A = A->next;
 		}
-		cout << "Null" << endl;
+
+		cout << endl;
 	}
 };
 
@@ -121,16 +108,23 @@ class SimpleList {
 //--------------------------------------------////--------------------------------------------//
 
 
-int main()
-{
+int main() {
 	SimpleList liste1;
-	liste1.Afficher();
+
+	// Adding elements
 	liste1.AjouterDebut(10);
+	liste1.AjouterDebut(20);
+	liste1.AjouterFin(30);
+	liste1.AjouterFin(40);
+	liste1.SpecificPostion(25, 1);
+	liste1.SpecificPostion(35, 4);
+
+	// Display the list
+	cout << "Linked List: ";
 	liste1.Afficher();
-	liste1.AjouterDebut(11);
-	liste1.Afficher();
-	liste1.AjouterFin(115);
-	liste1.Afficher();
-	cout << liste1.Taille() << endl;
+
+	// Get list size
+	cout << "Size of list: " << liste1.Taille() << endl;
+
 	return 0;
 }
